@@ -1,0 +1,14 @@
+.theme-mint {
+  --bg-main: #F0F7F4;
+  --bg-titlebar: #E6F2ED;
+  --bg-sidebar: #E6F2ED;
+  --bg-primary: #fff;
+  --border: #D0E6DF;
+  --text-primary: #2A3D36;
+  --text-secondary: #556B63;
+  --accent: #4A7C6B;
+  --accent-hover: #335C4E;
+  --danger: #D9534F;
+  --card-bg: #fff;
+  --hover-bg: rgba(74, 124, 107, 0.08);
+}

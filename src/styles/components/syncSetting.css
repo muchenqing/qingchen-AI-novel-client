@@ -1,0 +1,127 @@
+.sync-setting-modal {
+  width: 600px;
+  max-height: 70vh;
+}
+
+.sync-section {
+  margin-bottom: 16px;
+}
+
+.sync-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sync-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.sync-row-label {
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.sync-status-bar {
+  padding: 12px;
+  background: var(--hover-bg);
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.sync-status-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 4px 0;
+  color: var(--text-secondary);
+}
+
+.sync-status-value {
+  color: var(--text-primary);
+}
+
+.sync-status-error {
+  color: var(--danger);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.sync-device-list {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+
+.sync-device-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border: 1px solid var(--hover-bg);
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.sync-device-name {
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.sync-device-id {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.sync-history-list {
+  max-height: 160px;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+
+.sync-history-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--hover-bg);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.sync-history-status {
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.sync-history-success {
+  background: rgba(74, 124, 107, 0.1);
+  color: var(--accent);
+}
+
+.sync-history-error {
+  background: rgba(220, 53, 69, 0.1);
+  color: var(--danger);
+}
+
+.sync-progress-bar {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.sync-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}

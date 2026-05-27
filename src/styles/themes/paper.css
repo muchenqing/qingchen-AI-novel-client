@@ -1,0 +1,14 @@
+.theme-paper {
+  --bg-main: #F5F0E8;
+  --bg-titlebar: #EDE8DF;
+  --bg-sidebar: #EDE8DF;
+  --bg-primary: #FDFBF7;
+  --border: #D8D0C4;
+  --text-primary: #3E3529;
+  --text-secondary: #7A6E5E;
+  --accent: #8B7355;
+  --accent-hover: #6B5740;
+  --danger: #C0392B;
+  --card-bg: #FDFBF7;
+  --hover-bg: rgba(139, 115, 85, 0.08);
+}

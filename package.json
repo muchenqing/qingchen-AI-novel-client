@@ -1,10 +1,21 @@
 {
   "name": "qingchen-novel",
-  "version": "1.0.0",
+  "version": "2.0.0",
+  "description": "卿辰 Mercey - 本地独立小说创作客户端，支持AI创作辅助",
+  "author": "卿辰工作室",
+  "license": "MIT",
+  "homepage": "https://github.com/muchenqing/qingchen-AI-novel-client",
+   "main": "electron/main.js",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "electron:build": "npm run build && electron-builder"
+    "clean": "taskkill /f /im electron.exe 2>nul & taskkill /f /im builder.exe 2>nul & if exist release rmdir /s /q release & exit /b 0",
+    "electron:build:win": "vite build && set ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/&& set ELECTRON_BUILDER_BINARIES_MIRROR=https://npmmirror.com/mirrors/electron-binaries/&& electron-builder --win --config electron-builder.yml --clean",
+    "electron:build": "vite build && electron-builder --config electron-builder.yml --clean",
+    "electron:build:portable": "vite build && electron-builder --win portable --config electron-builder.yml",
+    "electron:build:nsis": "vite build && electron-builder --win nsis --config electron-builder.yml",
+    "electron:build:arm64": "vite build && electron-builder --win --arm64 --config electron-builder.yml",
+    "electron:publish": "vite build && electron-builder --publish always --config electron-builder.yml"
   },
   "devDependencies": {
     "electron": "^33.0.0",

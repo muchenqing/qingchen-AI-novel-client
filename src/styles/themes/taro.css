@@ -1,0 +1,14 @@
+.theme-taro {
+  --bg-main: #F2ECF5;
+  --bg-titlebar: #E9E0EE;
+  --bg-sidebar: #E9E0EE;
+  --bg-primary: #F8F5FA;
+  --border: #D5C9DE;
+  --text-primary: #3D2E4A;
+  --text-secondary: #7A6B8A;
+  --accent: #8B6BAF;
+  --accent-hover: #6B4F8F;
+  --danger: #D9534F;
+  --card-bg: #F8F5FA;
+  --hover-bg: rgba(139, 107, 175, 0.08);
+}

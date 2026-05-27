@@ -1,0 +1,167 @@
+.character-lib-modal {
+  width: 800px;
+  max-height: 75vh;
+}
+
+.cl-search {
+  padding: 8px 0;
+  margin-bottom: 8px;
+}
+
+.cl-content {
+  display: flex;
+  gap: 16px;
+  min-height: 400px;
+}
+
+.cl-left {
+  width: 280px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  padding-right: 16px;
+}
+
+.cl-right {
+  flex: 1;
+  min-width: 0;
+}
+
+.cl-group-tabs {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.cl-group-tab {
+  padding: 3px 8px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.cl-group-tab.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(74, 124, 107, 0.08);
+}
+
+.cl-list {
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.cl-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  gap: 8px;
+  transition: background 0.15s;
+}
+
+.cl-item:hover {
+  background: var(--hover-bg);
+}
+
+.cl-item.selected {
+  background: rgba(74, 124, 107, 0.08);
+  border-left: 2px solid var(--accent);
+}
+
+.cl-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cl-item-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.cl-item-meta {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.cl-item-fav {
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.cl-item-fav.active {
+  color: #f5a623;
+}
+
+.cl-item-delete {
+  padding: 2px 4px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.cl-item:hover .cl-item-delete {
+  opacity: 1;
+}
+
+.cl-item-delete:hover {
+  color: var(--danger, #dc3545);
+}
+
+.cl-empty {
+  text-align: center;
+  padding: 40px 16px;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.cl-form {
+  padding: 0;
+}
+
+.cl-form-row {
+  margin-bottom: 10px;
+}
+
+.cl-form-label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.cl-form-input,
+.cl-form-textarea {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.cl-form-textarea {
+  min-height: 60px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.cl-form-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}

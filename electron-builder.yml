@@ -1,30 +1,127 @@
 appId: com.qingchen.mercey
-productName: 卿辰
+productName: 卿辰 Mercey
 copyright: Copyright © 2026 卿辰工作室
 
 directories:
   output: release
+  buildResources: build
 
 files:
   - dist/**/*
   - electron/**/*.js
   - package.json
+  - "!electron/**/*.map"
+  - "!electron/**/*.ts"
+  - "!electron/**/*.test.js"
+  - "!electron/**/*.spec.js"
+  - "!**/node_modules/**/*.md"
+  - "!**/node_modules/**/*.txt"
+  - "!**/node_modules/**/*.map"
+  - "!**/node_modules/**/*.ts"
+  - "!**/node_modules/**/*.d.ts"
+  - "!**/node_modules/**/*.flow"
+  - "!**/node_modules/**/test/**"
+  - "!**/node_modules/**/tests/**"
+  - "!**/node_modules/**/__tests__/**"
+  - "!**/node_modules/**/__mocks__/**"
+  - "!**/node_modules/**/example/**"
+  - "!**/node_modules/**/examples/**"
+  - "!**/node_modules/**/.github/**"
+  - "!**/node_modules/**/.git/**"
+  - "!**/node_modules/**/tsconfig.json"
+  - "!**/node_modules/**/.npmignore"
+  - "!**/node_modules/**/.editorconfig"
+  - "!**/node_modules/**/.gitignore"
+  - "!**/node_modules/**/.npmrc"
+  - "!**/node_modules/**/Makefile"
+  - "!**/node_modules/**/Gruntfile.js"
+  - "!**/node_modules/**/Gulpfile.js"
+  - "!**/node_modules/**/Dockerfile"
+  - "!**/node_modules/**/.dockerignore"
+  - "!**/node_modules/**/.eslintrc*"
+  - "!**/node_modules/**/.prettierrc*"
+  - "!**/node_modules/**/.babelrc*"
+  - "!**/node_modules/**/jest.config*"
+  - "!**/node_modules/**/vitest.config*"
+  - "!**/node_modules/**/.travis.yml"
+  - "!**/node_modules/**/appveyor.yml"
+  - "!**/node_modules/**/.circleci/**"
+  - "!**/node_modules/**/LICENSE*"
+  - "!**/node_modules/**/LICENCE*"
+  - "!**/node_modules/**/CHANGELOG*"
+  - "!**/node_modules/**/CHANGES*"
+  - "!**/node_modules/**/CONTRIBUTING*"
+  - "!**/node_modules/**/HISTORY*"
+  - "!**/node_modules/**/.DS_Store"
+  - "!**/node_modules/**/Thumbs.db"
+  - "!**/node_modules/**/.npm/**"
+  - "!**/node_modules/**/.cache/**"
 
 extraMetadata:
   main: electron/main.js
 
+asar: true
+asarUnpack:
+  - "**/*.node"
+  - "build/icons/**"
+
+compression: normal
+removePackageScripts: true
+npmRebuild: false
+
 win:
   icon: build/icons/app.ico
-  executableName: 卿辰
-
-portable:
-  artifactName: 卿辰-${version}-portable.exe
+  executableName: qingchen-mercey
+  artifactName: "卿辰Mercey-${version}-setup-${arch}.${ext}"
+  requestedExecutionLevel: asInvoker
+  target:
+    - target: nsis
+      arch:
+        - x64
+        - arm64
+    - target: portable
+      arch:
+        - x64
+  fileAssociations:
+    - ext: txt
+      name: Text
+      description: Open with 卿辰 Mercey
+      icon: build/icons/app.ico
+    - ext: md
+      name: Markdown
+      description: Open with 卿辰 Mercey
+      icon: build/icons/app.ico
 
 nsis:
+  artifactName: "卿辰Mercey-${version}-setup-${arch}.${ext}"
   oneClick: false
   perMachine: false
+  allowElevation: true
   allowToChangeInstallationDirectory: true
   createDesktopShortcut: true
   createStartMenuShortcut: true
   shortcutName: 卿辰 Mercey
-  artifactName: 卿辰-${version}-setup.exe
+  menuCategory: 卿辰
+  uninstallDisplayName: 卸载 卿辰 Mercey
+  uninstallerIcon: build/icons/app.ico
+  installerIcon: build/icons/app.ico
+  installerHeaderIcon: build/icons/app.ico
+  runAfterFinish: false
+  deleteAppDataOnUninstall: false
+  unicode: true
+
+portable:
+  artifactName: "卿辰Mercey-${version}-portable-${arch}.${ext}"
+  requestExecutionLevel: asInvoker
+
+signtoolOptions:
+  publisherName: 卿辰工作室
+  signingHashAlgorithms:
+    - sha256
+  rfc3161TimeStampServer: http://timestamp.digicert.com
+
+publish:
+  provider: github
+  owner: muchenqing
+  repo: qingchen-AI-novel-client
+  releaseType: release

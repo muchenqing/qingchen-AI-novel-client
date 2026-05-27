@@ -1,0 +1,102 @@
+.config-panel-modal {
+  width: 520px;
+}
+
+.config-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin: 16px 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.config-section-title:first-child {
+  margin-top: 0;
+}
+
+.config-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.config-row-label {
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.config-row-desc {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.config-input-number {
+  width: 80px;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--card-bg);
+  text-align: right;
+}
+
+.config-input-number:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.config-select {
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--card-bg);
+}
+
+.config-select:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.config-range-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.config-range {
+  flex: 1;
+  accent-color: var(--accent);
+}
+
+.config-range-value {
+  font-size: 12px;
+  color: var(--text-secondary);
+  min-width: 30px;
+}
+
+.config-import-export {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.config-validation-errors {
+  margin-top: 12px;
+  padding: 10px;
+  background: rgba(217, 83, 79, 0.08);
+  border-radius: 8px;
+  border: 1px solid rgba(217, 83, 79, 0.2);
+}
+
+.config-validation-errors li {
+  font-size: 12px;
+  color: var(--danger);
+  line-height: 1.6;
+  margin-left: 16px;
+}

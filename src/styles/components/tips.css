@@ -1,0 +1,280 @@
+.qc-toast-container {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.qc-toast {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  min-width: 280px;
+  max-width: 420px;
+  pointer-events: auto;
+  animation: slideInRight 0.3s;
+  transition: opacity 0.3s;
+}
+
+.qc-toast.removing {
+  opacity: 0;
+}
+
+.qc-toast-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #fff;
+}
+
+.qc-toast-icon.success {
+  background: var(--accent);
+}
+
+.qc-toast-icon.error {
+  background: var(--danger);
+}
+
+.qc-toast-icon.warning {
+  background: #e6a817;
+}
+
+.qc-toast-icon.info {
+  background: var(--text-secondary);
+}
+
+.qc-toast-message {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.qc-toast-close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 2px;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.qc-toast-close:hover {
+  color: var(--text-primary);
+}
+
+.qc-loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.qc-loading-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.qc-loading-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 32px 40px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--border);
+}
+
+.qc-loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 12px;
+}
+
+.qc-loading-dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.qc-loading-dots span {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: dotPulse 1.2s infinite;
+}
+
+.qc-loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.qc-loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.qc-loading-message {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.qc-loading-bar {
+  width: 200px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 0 auto 12px;
+  overflow: hidden;
+}
+
+.qc-loading-bar::after {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: var(--accent);
+  border-radius: 2px;
+  animation: loadingBar 1.2s infinite;
+}
+
+.qc-error-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.qc-error-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.qc-error-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 480px;
+  width: 90vw;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--border);
+}
+
+.qc-error-card.type-error {
+  border-left: 4px solid var(--danger);
+}
+
+.qc-error-card.type-warning {
+  border-left: 4px solid #e6a817;
+}
+
+.qc-error-card.type-network {
+  border-left: 4px solid var(--text-secondary);
+}
+
+.qc-error-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.qc-error-message {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.qc-error-details {
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--hover-bg);
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  max-height: 120px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+.qc-error-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.qc-error-tips {
+  margin: 12px 0;
+  padding: 12px;
+  background: var(--hover-bg);
+  border-radius: 8px;
+}
+
+.qc-error-tips li {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-left: 16px;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes dotPulse {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes loadingBar {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(350%);
+  }
+}

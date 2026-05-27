@@ -1,0 +1,14 @@
+.theme-fog {
+  --bg-main: #E8ECF0;
+  --bg-titlebar: #DDE3EA;
+  --bg-sidebar: #DDE3EA;
+  --bg-primary: #F0F3F6;
+  --border: #C4CCD5;
+  --text-primary: #2C3E50;
+  --text-secondary: #5D6D7E;
+  --accent: #5B7B96;
+  --accent-hover: #456480;
+  --danger: #E74C3C;
+  --card-bg: #F0F3F6;
+  --hover-bg: rgba(91, 123, 150, 0.08);
+}

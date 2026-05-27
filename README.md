@@ -2,9 +2,9 @@
 
 # ✦ 卿辰 Mercey
 
-**一款为小说创作者打造的本地独立写作客户端**
+**一款为小说创作者打造的本地独立 AI 写作客户端**
 
-*纯本地运行 · 零依赖服务 · AI 创作辅助 · 四套治愈主题*
+*纯本地运行 · 零依赖服务 · AI 创作辅助 · 四套治愈主题 · 22+ 功能模块*
 
 [![Electron](https://img.shields.io/badge/Electron-33-47848F?logo=electron&logoColor=white)](https://www.electronjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -29,51 +29,109 @@
 
 ## 功能亮点
 
-- 🖊️ **沉浸式写作** — 纯净编辑器，宋体排版，专注创作本身
-- 🎨 **四套治愈主题** — 奶薄荷绿 / 暖调米杏纸 / 冷调雾蓝灰 / 淡奶芋紫，一键切换
-- 🤖 **AI 创作助手** — 续写、大纲生成、润色，对接任意 OpenAI 兼容私有云 API
-- 💾 **离线可用** — 所有文稿本地存储，断网不影响基础写作
-- 🔒 **隐私优先** — 零服务端，数据不离开你的电脑
-- 📐 **智能排版** — 自定义标题栏，窗口状态自动记忆
-- ⌨️ **快捷键支持** — Ctrl+S 保存 / Ctrl+N 新建 / Ctrl+B 加粗 / Ctrl+I 斜体
-- 📦 **开箱即用** — 提供 Windows 安装包 + 绿色免安装版
+### 🤖 AI 创作助手（11 项功能）
+- **续写** — 基于上下文智能续写
+- **大纲生成** — 分析内容生成结构化大纲
+- **润色** — 提升文字表达质量
+- **人物设计** — 自动生成人物设定卡片
+- **世界观构建** — 构建完整世界观设定
+- **冲突生成** — 自动生成情节冲突
+- **章节总结** — 快速总结章节内容
+- **文风模仿** — 基于范文学习写作风格
+- **对白润色** — 优化对话表达
+- **段落扩写 / 精简** — 灵活调整段落长度
+- **多结局生成** — 5 种风格结局（悲情/爽文/反转/开放式/悬疑）
+
+### 🎙 AI 剧情工具箱
+- **语音朗读** — TTS 朗读 + 暂停/继续/停止
+- **语音转文字** — 实时口述转文本
+- **剧情校验** — 检测时间线冲突、人设崩塌、逻辑 BUG
+- **伏笔检测** — 扫描伏笔、未回收线索、密度评估
+
+### 📚 专业写作系统
+- **书籍管理** — 树形结构（书 > 卷 > 章），拖拽排序，书签标记
+- **人物卡库** — 完整人物档案，搜索/分组/收藏，上限 200 个
+- **素材库** — 6 大分类（金句/桥段/伏笔/环境/对话/其他），上限 500 条
+- **数据看板** — 写作趋势、字数统计、目标进度可视化
+
+### 📝 编辑器增强
+- **自动保存** — 定时保存 + 失焦保存 + 关闭提醒
+- **悬浮工具栏** — 选中文本弹出润色/扩写/精简/改写按钮
+- **粘贴清洗** — 自动剥离 HTML 标签、广告文本
+- **AI 撤销/恢复** — AI 生成结果可回退与重做
+- **Prompt 模板库** — 5 套内置 + 自定义模板
+
+### 🪟 窗口 & 体验
+- **四套治愈主题** — 奶薄荷绿 / 暖调米杏纸 / 冷调雾蓝灰 / 淡奶芋紫
+- **极简写作模式** — ESC 退出，悬浮退出按钮，状态自动持久化
+- **窗口置顶** — 一键固定窗口在最上层
+- **字体排版** — 9 种字体、行距/字号滑块、排版预设
+- **自定义快捷键** — 11 个可配置动作
+
+### 🔌 系统能力
+- **插件系统** — 沙箱隔离、生命周期管理、10 种权限控制
+- **版本管理** — 版本快照、历史回溯、差异对比、多分支管理
+- **多端同步** — 局域网同步 + 私有云同步（XOR 加密）
+- **多格式导出** — TXT / Markdown / EPUB / JSON
+- **6 家 AI 模型** — OpenAI / 通义千问 / 文心一言 / DeepSeek / 本地 Llama / 自定义
+
+---
+
+## 技术栈
+
+| 层级 | 技术 | 版本 |
+|------|------|------|
+| 桌面框架 | Electron | ^33.0.0 |
+| 构建工具 | Vite | ^6.4.2 |
+| 打包工具 | electron-builder | ^25.0.0 |
+| 前端语言 | 原生 JavaScript | ES2020+ |
+| 运行时依赖 | **零** | 纯原生 JS，不使用任何框架 |
 
 ---
 
 ## 项目结构
 
 ```
-qingchen-writer/
-├── electron/                # Electron 主进程
-│   ├── main.js              # 窗口管理 + IPC 监听 + 安全配置
-│   └── preload.js           # contextBridge 安全暴露 API
-├── src/                     # 渲染进程（前端界面）
-│   ├── index.html           # 入口页面
-│   ├── style.css            # 全局样式 + 四套主题变量
-│   └── app.js               # 界面构建 + 窗口控制 + AI 请求
-├── public/                  # 静态资源
-│   └── favicon.svg          # 应用图标
-├── build/icons/             # 打包图标
-│   └── app.ico              # Windows 图标
+qingchen-novel/
+├── electron/                        # Electron 主进程
+│   ├── main.js                      # 极简入口
+│   ├── main/
+│   │   ├── index.js                 # 统一编排入口
+│   │   ├── windowManager.js         # 窗口管理
+│   │   └── appLifecycle.js          # 生命周期 / 菜单 / CSP
+│   ├── ipc/
+│   │   ├── constants.js             # 76 个 IPC 通道常量
+│   │   ├── router.js                # 路由注册中心
+│   │   └── handlers/                # 11 个业务 Handler
+│   └── preload/
+│       ├── preload.js               # Preload 入口
+│       └── apiExpose.js             # 安全暴露 60+ API
+│
+├── src/                             # 渲染进程
+│   ├── app.js                       # 渲染入口
+│   ├── core/                        # 核心层（状态/初始化/统计/导出）
+│   ├── api/ai/                      # AI 请求层（11 项功能 + 6 家模型）
+│   ├── components/                  # UI 组件层（22 个组件模块）
+│   ├── plugin/                      # 插件系统
+│   ├── document/                    # 版本控制 / 分支 / 备份
+│   ├── sync/                        # 同步系统
+│   ├── store/                       # 人物卡 / 素材库存储
+│   ├── utils/                       # 工具函数（15 个模块）
+│   ├── event/                       # 事件总线
+│   ├── config/                      # 配置管理
+│   └── styles/                      # 样式体系（全局 + 4 主题 + 22 组件）
+│
+├── build/icons/                     # 打包图标
 ├── package.json
 ├── vite.config.js
 ├── electron-builder.yml
-└── .gitignore
+├── .npmrc                           # Electron 国内镜像加速
+├── RELEASE_NOTE.md                  # 版本更新日志
+├── README.md                        # 本文件
+├── LICENSE                          # MIT
+└── docs/
+    └── DEVELOPMENT.md               # 开发文档
 ```
-
----
-
-## 前置依赖
-
-| 依赖 | 版本要求 | 说明 |
-|------|---------|------|
-| [Node.js](https://nodejs.org/) | ≥ 18.0 | 推荐使用 LTS 版本 |
-| [npm](https://www.npmjs.com/) | ≥ 9.0 | 随 Node.js 自带 |
-
-> 💡 国内用户建议配置 npm 镜像加速：
-> ```bash
-> npm config set registry https://registry.npmmirror.com
-> ```
 
 ---
 
@@ -82,8 +140,8 @@ qingchen-writer/
 ### 1. 克隆仓库
 
 ```bash
-git clone https://github.com/muchenqing/qingchen-writer.git
-cd qingchen-writer
+git clone https://github.com/muchenqing/qingchen-AI-novel-client.git
+cd qingchen-AI-novel-client
 ```
 
 ### 2. 安装依赖
@@ -92,187 +150,75 @@ cd qingchen-writer
 npm install
 ```
 
-### 3. 启动开发服务器
+### 3. 启动开发
 
 ```bash
 npm run dev
 ```
 
-启动后访问 http://localhost:5173 预览界面。
-
----
-
-## 打包构建
-
-### 构建前端资源
+### 4. 构建打包
 
 ```bash
+# 前端构建
 npm run build
+
+# 完整打包（x64 + arm64，国内镜像加速）
+npm run electron:build:win
+
+# 仅绿色便携版
+npm run electron:build:portable
 ```
 
-产物输出到 `dist/` 目录。
+---
 
-### 打包 Windows 应用
+## AI 配置指南
 
-```bash
-npm run electron:build
-```
+首次使用请在设置面板配置 AI API：
 
-该命令会依次执行：
-1. `vite build` — 构建前端资源到 `dist/`
-2. `electron-builder` — 打包为 Windows 可执行文件
+| 提供商 | 环境变量 | 说明 |
+|--------|---------|------|
+| OpenAI | `OPENAI_API_KEY` | 支持 GPT-4o / GPT-4 |
+| 通义千问 | `DASHSCOPE_API_KEY` | 阿里云 API |
+| 文心一言 | `WENXIN_API_KEY` | 百度 API |
+| DeepSeek | `DEEPSEEK_API_KEY` | DeepSeek API |
+| 本地 Llama | — | Ollama 本地模型 |
+| 自定义 | — | 任意 OpenAI 兼容 API |
 
-产物输出到 `release/` 目录：
+---
 
-| 产物 | 说明 |
+## 打包产物
+
+| 文件 | 说明 |
 |------|------|
-| `卿辰-1.0.0-setup.exe` | NSIS 安装包，双击安装，自动创建桌面图标 |
-| `卿辰-1.0.0-portable.exe` | 绿色免安装版，双击即用 |
-| `win-unpacked/` | 解压版，可直接运行 `卿辰.exe` |
+| `卿辰Mercey-2.0.0-setup.exe` | NSIS 安装包（x64 + arm64 双架构） |
+| `卿辰Mercey-2.0.0-setup-x64.exe` | NSIS 安装包（仅 x64） |
+| `卿辰Mercey-2.0.0-setup-arm64.exe` | NSIS 安装包（仅 ARM64） |
+| `卿辰Mercey-2.0.0-portable-x64.exe` | 绿色便携版 |
 
 ---
 
-## 编译配置说明
+## 开发文档
 
-打包行为由 `electron-builder.yml` 控制：
+详细开发文档请查阅：[docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)
 
-```yaml
-appId: com.qingchen.mercey        # 应用唯一标识
-productName: 卿辰                  # 产品名称
-copyright: Copyright © 2026 卿辰工作室
-
-directories:
-  output: release                  # 打包产物输出目录
-
-files:                             # 打包包含的文件
-  - dist/**/*                      #   前端构建产物
-  - electron/**/*.js               #   Electron 主进程
-  - package.json
-
-win:
-  icon: build/icons/app.ico        # Windows 图标（.ico 格式）
-  executableName: 卿辰              # EXE 文件名
-
-portable:                          # 绿色免安装版配置
-  artifactName: 卿辰-${version}-portable.exe
-
-nsis:                              # NSIS 安装包配置
-  oneClick: false                  #   非一键安装（允许自定义路径）
-  perMachine: false                #   仅当前用户安装
-  allowToChangeInstallationDirectory: true
-  createDesktopShortcut: true      #   创建桌面快捷方式
-  createStartMenuShortcut: true    #   创建开始菜单
-  shortcutName: 卿辰 Mercey
-  artifactName: 卿辰-${version}-setup.exe
-```
-
-### 自定义图标
-
-替换 `build/icons/app.ico` 为你的图标文件，然后重新打包即可。
-
-> 推荐使用 [RealFaviconGenerator](https://realfavicongenerator.net/) 或 [IconWorkshop](https://www.axialis.com/iconworkshop/) 生成 `.ico` 文件。
-
----
-
-## 技术架构
-
-```
-┌─────────────────────────────────────────────┐
-│              Electron 主进程                  │
-│  main.js: 窗口管理 / IPC / CSP / 菜单        │
-└────────────┬────────────────────┬───────────┘
-             │ contextBridge      │ IPC
-┌────────────▼────────────────────▼───────────┐
-│            预加载脚本 (preload.js)            │
-│  安全暴露 window.electronAPI                 │
-└────────────┬────────────────────────────────┘
-             │
-┌────────────▼────────────────────────────────┐
-│            渲染进程 (src/)                    │
-│  index.html + style.css + app.js             │
-│  纯原生 JS，零框架依赖                        │
-│  本地存储: localStorage                      │
-│  AI 请求: fetch → OpenAI 兼容 API            │
-└─────────────────────────────────────────────┘
-```
-
----
-
-## AI 私有云 API 配置
-
-卿辰支持对接任意 OpenAI 兼容的 API 服务。在应用内点击 ⚙️ 设置按钮：
-
-| 配置项 | 说明 | 示例 |
-|--------|------|------|
-| API 地址 | 你的 API 服务地址 | `https://api.example.com` |
-| API 密钥 | 访问令牌 | `sk-xxxxxxxx` |
-| 模型名称 | 模型标识 | `gpt-4o` |
-
-支持的功能：
-- **续写** — 基于已有内容自动续写
-- **大纲生成** — 分析内容生成结构化大纲
-- **润色** — 提升文字表达和文学性
+涵盖：架构说明、目录结构、模块职责、IPC 通信规则、事件总线规范、样式体系、数据存储、扩展开发指南、编码规范、安全规范。
 
 ---
 
 ## 贡献指南
 
-欢迎提交 Issue 和 Pull Request！
-
-### 如何贡献
-
 1. Fork 本仓库
-2. 创建你的特性分支：`git checkout -b feature/amazing-feature`
-3. 提交你的修改：`git commit -m 'feat: 添加某个功能'`
-4. 推送到分支：`git push origin feature/amazing-feature`
+2. 创建功能分支：`git checkout -b feature/your-feature`
+3. 提交修改：`git commit -m 'feat: add some feature'`
+4. 推送分支：`git push origin feature/your-feature`
 5. 提交 Pull Request
-
-### 提交规范
-
-请遵循 [Conventional Commits](https://www.conventionalcommits.org/) 规范：
-
-- `feat:` — 新功能
-- `fix:` — 修复 Bug
-- `docs:` — 文档变更
-- `style:` — 代码格式调整
-- `refactor:` — 代码重构
-- `perf:` — 性能优化
-- `chore:` — 构建/工具变更
 
 ---
 
 ## 开源协议
 
-本项目基于 [MIT License](LICENSE) 开源。
-
-```
-MIT License
-
-Copyright (c) 2026 卿辰工作室
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+MIT License © 2026 卿辰工作室
 
 ---
 
-<div align="center">
-
-**用 ✦ 卿辰，写你的故事**
-
-</div>
+> **自主开发，用心打磨。如果你觉得这个工具有帮助，欢迎给个 Star 支持一下！** ⭐

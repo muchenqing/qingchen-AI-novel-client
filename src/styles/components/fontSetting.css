@@ -1,0 +1,80 @@
+.font-setting-panel {
+  padding: 0;
+}
+
+.font-setting-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+}
+
+.font-setting-label {
+  width: 70px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.font-setting-separator {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 0;
+}
+
+.preset-list {
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.preset-empty {
+  text-align: center;
+  padding: 12px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.preset-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--hover-bg);
+}
+
+.preset-item:last-child {
+  border-bottom: none;
+}
+
+.preset-item-name {
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.preset-item-meta {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-left: 8px;
+}
+
+.preset-btn {
+  padding: 3px 6px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-left: 4px;
+}
+
+.preset-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.preset-btn-danger:hover {
+  border-color: var(--danger, #dc3545);
+  color: var(--danger, #dc3545);
+}

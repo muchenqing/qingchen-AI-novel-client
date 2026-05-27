@@ -1,0 +1,214 @@
+.book-manage-modal {
+  width: 700px;
+  max-height: 75vh;
+}
+
+.bm-info-bar {
+  padding: 12px;
+  background: var(--hover-bg);
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.bm-info-row {
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  padding: 4px 0;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.bm-info-row:hover {
+  color: var(--text-primary);
+}
+
+.bm-info-label {
+  width: 60px;
+  flex-shrink: 0;
+}
+
+.bm-info-value {
+  color: var(--text-primary);
+}
+
+.bm-stats {
+  display: flex;
+  gap: 16px;
+  padding: 8px 0;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.bm-stats-value {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-right: 4px;
+}
+
+.bm-tree {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.bm-volume {
+  margin-bottom: 8px;
+}
+
+.bm-volume-header {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  background: var(--hover-bg);
+  border-radius: 4px;
+  cursor: pointer;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.bm-volume-toggle {
+  font-size: 10px;
+  color: var(--text-secondary);
+  transition: transform 0.2s;
+  width: 16px;
+  text-align: center;
+}
+
+.bm-volume-toggle.collapsed {
+  transform: rotate(-90deg);
+}
+
+.bm-volume-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 4px;
+}
+
+.bm-chapter-list {
+  padding-left: 24px;
+}
+
+.bm-chapter-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 4px;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.bm-chapter-item:hover {
+  background: var(--hover-bg);
+}
+
+.bm-chapter-drag {
+  cursor: grab;
+  color: var(--text-secondary);
+  font-size: 10px;
+  opacity: 0.5;
+}
+
+.bm-chapter-drag:hover {
+  opacity: 1;
+}
+
+.bm-chapter-name {
+  flex: 1;
+  min-width: 0;
+}
+
+.bm-chapter-name-input {
+  width: 100%;
+  padding: 2px 4px;
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  font-family: inherit;
+}
+
+.bm-chapter-wc {
+  font-size: 11px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.bm-chapter-bookmark {
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.bm-chapter-bookmark.active {
+  color: #f5a623;
+}
+
+.bm-chapter-actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.bm-chapter-item:hover .bm-chapter-actions {
+  opacity: 1;
+}
+
+.bm-btn {
+  padding: 2px 6px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.bm-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.bm-btn-danger:hover {
+  border-color: var(--danger, #dc3545);
+  color: var(--danger, #dc3545);
+}
+
+.bm-bookmarks {
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.bm-bookmarks-title {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.bm-bookmark-item {
+  font-size: 12px;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 3px 0;
+}
+
+.bm-bookmark-item:hover {
+  text-decoration: underline;
+}
+
+.bm-empty {
+  text-align: center;
+  padding: 40px 16px;
+  color: var(--text-secondary);
+  font-size: 13px;
+}

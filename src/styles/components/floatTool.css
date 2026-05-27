@@ -1,0 +1,42 @@
+.float-tool {
+  position: fixed;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 6px;
+  background: var(--bg-primary, #fff);
+  border: 1px solid var(--border, #e5e5e5);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  pointer-events: auto;
+}
+
+.float-tool.visible {
+  display: flex;
+}
+
+.float-tool-btn {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-primary, #333);
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.float-tool-btn:hover {
+  background: var(--hover-bg, #f0f0f0);
+  color: var(--accent, #4a7c6b);
+}
+
+.float-tool-separator {
+  width: 1px;
+  height: 16px;
+  background: var(--border, #e5e5e5);
+  margin: 0 2px;
+  flex-shrink: 0;
+}

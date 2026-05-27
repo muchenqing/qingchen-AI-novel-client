@@ -1,0 +1,133 @@
+{
+  "version": "2.0.0",
+  "configVersion": 2,
+  "ai": {
+    "currentProvider": "openai",
+    "providers": {
+      "openai": {
+        "baseUrl": "https://api.openai.com",
+        "apiKey": "",
+        "model": "gpt-4o",
+        "enabled": true
+      },
+      "qwen": {
+        "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode",
+        "apiKey": "",
+        "model": "qwen-turbo",
+        "enabled": true
+      },
+      "ernie": {
+        "baseUrl": "https://aip.baidubce.com",
+        "apiKey": "",
+        "model": "ernie-bot-4",
+        "enabled": true
+      },
+      "deepseek": {
+        "baseUrl": "https://api.deepseek.com",
+        "apiKey": "",
+        "model": "deepseek-chat",
+        "enabled": true
+      },
+      "llama": {
+        "baseUrl": "http://localhost:11434/v1",
+        "apiKey": "",
+        "model": "llama3",
+        "enabled": true
+      },
+      "custom": {
+        "baseUrl": "",
+        "apiKey": "",
+        "model": "",
+        "enabled": true
+      }
+    },
+    "parameters": {
+      "temperature": 0.8,
+      "topP": null,
+      "maxTokens": 2000,
+      "timeout": 60000
+    }
+  },
+  "editor": {
+    "indent": false,
+    "autoFormat": false,
+    "punctuationFix": false,
+    "fontSize": 15,
+    "lineHeight": 1.8,
+    "autoSaveInterval": 5000,
+    "chunkSize": 5000,
+    "debounceDelay": 300
+  },
+  "export": {
+    "defaultFormat": "txt",
+    "includeToc": true,
+    "autoClean": true
+  },
+  "theme": {
+    "current": "mint",
+    "customThemes": []
+  },
+  "shortcuts": {
+    "save": "Ctrl+S",
+    "newManuscript": "Ctrl+N",
+    "openAI": "Ctrl+Shift+A",
+    "export": "Ctrl+Shift+E",
+    "toggleIndent": "Ctrl+Shift+I",
+    "formatSelection": "Ctrl+Shift+F",
+    "showWordCount": "Ctrl+Shift+D",
+    "bold": "Ctrl+B",
+    "italic": "Ctrl+I",
+    "openSettings": "Ctrl+,",
+    "closeWindow": "Alt+F4"
+  },
+  "window": {
+    "rememberSize": true,
+    "rememberPosition": true,
+    "rememberLastDocument": true
+  },
+  "features": {
+    "contextMemory": true,
+    "aiWriteFeatures": true,
+    "editorEnhance": true,
+    "exportEngine": true,
+    "networkCheck": true,
+    "autoRecover": true,
+    "pluginSystem": false,
+    "versionControl": false,
+    "syncEnabled": false
+  },
+  "plugin": {
+    "enabled": false,
+    "directory": "plugins",
+    "maxPlugins": 50,
+    "autoUpdate": false
+  },
+  "versionControl": {
+    "enabled": false,
+    "autoSnapshotInterval": 300000,
+    "maxSnapshots": 100,
+    "autoBackupEnabled": true,
+    "backupInterval": 600000,
+    "maxBackups": 20,
+    "retentionDays": 30
+  },
+  "sync": {
+    "enabled": false,
+    "mode": "lan",
+    "lanPort": 9527,
+    "cloudUrl": "",
+    "cloudToken": "",
+    "autoSync": false,
+    "syncInterval": 60000,
+    "encryptionKey": "",
+    "deviceName": ""
+  },
+  "about": {
+    "version": "2.0.0",
+    "productName": "卿辰 Mercey",
+    "description": "本地独立小说创作客户端，支持AI创作辅助",
+    "author": "卿辰工作室",
+    "license": "MIT",
+    "homepage": "https://github.com/muchenqing/qingchen-AI-novel-client"
+  }
+}

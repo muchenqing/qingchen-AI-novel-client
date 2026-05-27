@@ -1,0 +1,133 @@
+.help-center-modal {
+  width: 620px;
+  max-height: 70vh;
+}
+
+.help-section {
+  margin-bottom: 16px;
+}
+
+.help-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.help-section-content {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.help-step-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.help-step-item {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--hover-bg);
+}
+
+.help-step-item:last-child {
+  border-bottom: none;
+}
+
+.help-step-number {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.help-step-text {
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.help-step-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.help-feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.help-feature-card {
+  padding: 12px;
+  border: 1px solid var(--hover-bg);
+  border-radius: 6px;
+}
+
+.help-feature-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.help-feature-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.about-info {
+  padding: 16px 0;
+}
+
+.about-row {
+  display: flex;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--hover-bg);
+}
+
+.about-row:last-child {
+  border-bottom: none;
+}
+
+.about-label {
+  width: 100px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.about-value {
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.about-link {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.about-link:hover {
+  text-decoration: underline;
+}
+
+.about-description {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
