@@ -1,0 +1,30 @@
+appId: com.qingchen.mercey
+productName: 卿辰
+copyright: Copyright © 2026 卿辰工作室
+
+directories:
+  output: release
+
+files:
+  - dist/**/*
+  - electron/**/*.js
+  - package.json
+
+extraMetadata:
+  main: electron/main.js
+
+win:
+  icon: build/icons/app.ico
+  executableName: 卿辰
+
+portable:
+  artifactName: 卿辰-${version}-portable.exe
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: 卿辰 Mercey
+  artifactName: 卿辰-${version}-setup.exe
