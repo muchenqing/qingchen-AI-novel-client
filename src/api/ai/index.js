@@ -106,7 +106,26 @@ export async function testConnection(apiUrl, apiKey, model) {
  */
 export var aiWritingFeatures = {
   characterDesign: function (content, extraInfo) {
-    var prompt = '请根据以下内容为小说设计详细的人物设定，包括性格、背景、外貌、能力等：\n\n' + content;
+    var prompt = '请仔细阅读以下小说正文，从中**提取**所有出场人物，并为每个人物生成详细设定。\n' +
+      '请严格按照以下格式输出，每个角色之间用空行分隔：\n\n' +
+      '1. **角色名**\n' +
+      '年龄：\n' +
+      '性别：\n' +
+      '身份：\n' +
+      '性格：\n' +
+      '外貌：\n' +
+      '背景：\n' +
+      '能力/特长：\n' +
+      '人际关系：\n' +
+      '动机/目标：\n\n' +
+      '2. **角色名**\n' +
+      '年龄：\n' +
+      '...\n\n' +
+      '要求：\n' +
+      '- 只提取正文中实际出现的人物，不要编造\n' +
+      '- 若正文中未提及某属性，填写"未知"\n' +
+      '- 按人物重要性排序\n\n' +
+      '正文：\n' + content;
     if (extraInfo) prompt += '\n\n补充信息：' + extraInfo;
     return aiAdapter.unifiedRequest(prompt, aiContext.getContext(content), {}).then(function (res) {
       if (res.code !== 200) throw new Error(res.message);

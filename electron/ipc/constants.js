@@ -68,6 +68,10 @@ const IPC_EVENTS = {
 
   AI_IMPORT_SAMPLE: 'ai-import-sample',
 
+  READ_FILE: 'read-file',
+
+  CLEANUP_NOVEL: 'cleanup-novel',
+
   WINDOW_PIN_TOP: 'window-pin-top',
   WINDOW_GET_PINNED: 'window-get-pinned',
   WINDOW_PINNED_CHANGE: 'window-pinned-change',

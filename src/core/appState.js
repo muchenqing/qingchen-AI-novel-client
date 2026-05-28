@@ -1,257 +1,103 @@
 /**
  * 全局状态管理模块
- * @description 托管应用全局运行状态，包括书稿列表、当前选中书稿、AI状态等
- *              所有状态的读取和修改必须通过本模块的方法，禁止直接操作变量
- * @exports default - appState对象，包含所有状态的getter/setter及业务方法
+ * @description 托管应用全局运行状态，包括小说列表、章节数据、AI状态等
+ *              所有状态的读取和修改必须通过本模块的方法
  */
 
 import { generateId } from '../utils/helper.js';
-import { saveManuscripts } from '../utils/storage.js';
+import { saveNovels } from '../utils/storage.js';
 
-var manuscripts = [];
-var currentManuscriptId = null;
-var autoSaveTimer = null;
+var novels = [];
+var currentNovelId = null;
+var currentChapterId = null;
 var aiCurrentResult = '';
 var aiIsLoading = false;
 var searchQuery = '';
 var currentAiTab = 'continue';
-
 var currentAiProvider = 'openai';
 var aiGlobalParams = { temperature: 0.8, topP: null, maxTokens: 2000 };
 var editorConfig = { indent: false, autoFormat: false, punctuationFix: false };
-var exportConfig = { defaultFormat: 'txt', includeToc: true, autoClean: true };
-var featureSwitches = { contextMemory: true, aiWriteFeatures: true, editorEnhance: true, exportEngine: true };
-
-var appConfig = null;
 var currentTheme = 'mint';
 var shortcuts = {};
-var globalLoading = { visible: false, message: '', type: 'spinner' };
 var networkStatus = { online: true, lastCheck: 0 };
-var uiPreferences = { configPanelTab: 'general', themePanelOpen: false, shortcutPanelOpen: false };
-
-var pluginStatus = { enabled: false, loaded: [], active: 0 };
-var versionControlStatus = { enabled: false, currentBranch: 'main', lastSnapshot: 0 };
-var syncStatus = { enabled: false, mode: 'lan', active: false, lastSync: 0 };
-
-var isPinned = false;
 var isZenMode = false;
-var aiPauseState = { paused: false, content: '' };
 var aiUndoStack = [];
 var aiRedoStack = [];
+var aiHistory = [];
+var autoSaveStatus = '已保存';
+var syncData = {
+  characters: '',
+  worldBuilding: '',
+  chapterSummary: '',
+  lastSyncTime: 0,
+  syncEnabled: true,
+};
 
-var bookProject = null;
-var activeCharacterId = null;
-var activeMaterialId = null;
+var characterProfiles = {};
 
-var voiceStatus = { isSpeaking: false, isPaused: false, isRecording: false };
-var dramaCheckStatus = { loading: false, lastResult: null };
-var foreshadowStatus = { loading: false, lastResult: null };
-var endingGenStatus = { loading: false, progress: 0, total: 0 };
+var CHAR_CATEGORIES = [
+  '基础信息',
+  '外在表现',
+  '内在心理',
+  '人际关系',
+  '角色背景',
+  '角色动机',
+  '成长弧线',
+];
 
 var appState = {
-  getManuscripts: function () {
-    return manuscripts;
-  },
+  /* ===== 小说列表 ===== */
+  getNovels: function () { return novels; },
+  setNovels: function (list) { novels = list; },
 
-  setManuscripts: function (list) {
-    manuscripts = list;
-  },
+  /* ===== 当前小说ID ===== */
+  getCurrentNovelId: function () { return currentNovelId; },
+  setCurrentNovelId: function (id) { currentNovelId = id; },
 
-  getCurrentManuscriptId: function () {
-    return currentManuscriptId;
-  },
+  /* ===== 当前章节ID ===== */
+  getCurrentChapterId: function () { return currentChapterId; },
+  setCurrentChapterId: function (id) { currentChapterId = id; },
 
-  setCurrentManuscriptId: function (id) {
-    currentManuscriptId = id;
-  },
+  /* ===== 自动保存状态 ===== */
+  getAutoSaveStatus: function () { return autoSaveStatus; },
+  setAutoSaveStatus: function (status) { autoSaveStatus = status; },
 
-  getAutoSaveTimer: function () {
-    return autoSaveTimer;
-  },
+  /* ===== AI 结果 ===== */
+  getAiCurrentResult: function () { return aiCurrentResult; },
+  setAiCurrentResult: function (val) { aiCurrentResult = val; },
 
-  setAutoSaveTimer: function (timer) {
-    if (autoSaveTimer) clearInterval(autoSaveTimer);
-    autoSaveTimer = timer;
-  },
+  getAiIsLoading: function () { return aiIsLoading; },
+  setAiIsLoading: function (val) { aiIsLoading = val; },
 
-  getAiCurrentResult: function () {
-    return aiCurrentResult;
-  },
+  getSearchQuery: function () { return searchQuery; },
+  setSearchQuery: function (val) { searchQuery = val; },
 
-  setAiCurrentResult: function (val) {
-    aiCurrentResult = val;
-  },
+  getCurrentAiTab: function () { return currentAiTab; },
+  setCurrentAiTab: function (val) { currentAiTab = val; },
 
-  getAiIsLoading: function () {
-    return aiIsLoading;
-  },
+  getCurrentAiProvider: function () { return currentAiProvider; },
+  setCurrentAiProvider: function (val) { currentAiProvider = val; },
 
-  setAiIsLoading: function (val) {
-    aiIsLoading = val;
-  },
+  getAiGlobalParams: function () { return aiGlobalParams; },
+  setAiGlobalParams: function (params) { aiGlobalParams = Object.assign({}, aiGlobalParams, params); },
 
-  getSearchQuery: function () {
-    return searchQuery;
-  },
+  getEditorConfig: function () { return editorConfig; },
+  setEditorConfig: function (cfg) { editorConfig = Object.assign({}, editorConfig, cfg); },
 
-  setSearchQuery: function (val) {
-    searchQuery = val;
-  },
+  getCurrentTheme: function () { return currentTheme; },
+  setCurrentTheme: function (val) { currentTheme = val; },
 
-  getCurrentAiTab: function () {
-    return currentAiTab;
-  },
+  getShortcuts: function () { return shortcuts; },
+  setShortcuts: function (sc) { shortcuts = Object.assign({}, sc); },
 
-  setCurrentAiTab: function (val) {
-    currentAiTab = val;
-  },
-
-  getCurrentAiProvider: function () {
-    return currentAiProvider;
-  },
-
-  setCurrentAiProvider: function (val) {
-    currentAiProvider = val;
-  },
-
-  getAiGlobalParams: function () {
-    return aiGlobalParams;
-  },
-
-  setAiGlobalParams: function (params) {
-    aiGlobalParams = Object.assign({}, aiGlobalParams, params);
-  },
-
-  getEditorConfig: function () {
-    return editorConfig;
-  },
-
-  setEditorConfig: function (cfg) {
-    editorConfig = Object.assign({}, editorConfig, cfg);
-  },
-
-  getExportConfig: function () {
-    return exportConfig;
-  },
-
-  setExportConfig: function (cfg) {
-    exportConfig = Object.assign({}, exportConfig, cfg);
-  },
-
-  getFeatureSwitches: function () {
-    return featureSwitches;
-  },
-
-  setFeatureSwitches: function (sw) {
-    featureSwitches = Object.assign({}, featureSwitches, sw);
-  },
-
-  getAppConfig: function () {
-    return appConfig;
-  },
-
-  setAppConfig: function (cfg) {
-    appConfig = cfg;
-  },
-
-  getCurrentTheme: function () {
-    return currentTheme;
-  },
-
-  setCurrentTheme: function (val) {
-    currentTheme = val;
-  },
-
-  getShortcuts: function () {
-    return shortcuts;
-  },
-
-  setShortcuts: function (sc) {
-    shortcuts = Object.assign({}, sc);
-  },
-
-  getShortcut: function (action) {
-    return shortcuts[action] || null;
-  },
-
-  setShortcut: function (action, combo) {
-    shortcuts[action] = combo;
-  },
-
-  getGlobalLoading: function () {
-    return globalLoading;
-  },
-
-  setGlobalLoading: function (visible, message, type) {
-    globalLoading.visible = visible;
-    globalLoading.message = message || '';
-    globalLoading.type = type || 'spinner';
-  },
-
-  getNetworkStatus: function () {
-    return networkStatus;
-  },
-
+  getNetworkStatus: function () { return networkStatus; },
   setNetworkStatus: function (online, lastCheck) {
     networkStatus.online = online;
     networkStatus.lastCheck = lastCheck || Date.now();
   },
 
-  getUiPreferences: function () {
-    return uiPreferences;
-  },
-
-  setUiPreferences: function (prefs) {
-    uiPreferences = Object.assign({}, uiPreferences, prefs);
-  },
-
-  getPluginStatus: function () {
-    return pluginStatus;
-  },
-
-  setPluginStatus: function (status) {
-    pluginStatus = Object.assign({}, pluginStatus, status);
-  },
-
-  getVersionControlStatus: function () {
-    return versionControlStatus;
-  },
-
-  setVersionControlStatus: function (status) {
-    versionControlStatus = Object.assign({}, versionControlStatus, status);
-  },
-
-  getSyncStatus: function () {
-    return syncStatus;
-  },
-
-  setSyncStatus: function (status) {
-    syncStatus = Object.assign({}, syncStatus, status);
-  },
-
-  getIsPinned: function () {
-    return isPinned;
-  },
-
-  setIsPinned: function (val) {
-    isPinned = val;
-  },
-
-  getIsZenMode: function () {
-    return isZenMode;
-  },
-
-  setIsZenMode: function (val) {
-    isZenMode = val;
-  },
-
-  getAiPauseState: function () {
-    return aiPauseState;
-  },
-
-  setAiPauseState: function (state) {
-    aiPauseState = Object.assign({}, aiPauseState, state);
-  },
+  getIsZenMode: function () { return isZenMode; },
+  setIsZenMode: function (val) { isZenMode = val; },
 
   pushAiUndo: function (content) {
     aiUndoStack.push(content);
@@ -262,121 +108,388 @@ var appState = {
   aiUndo: function () {
     if (aiUndoStack.length === 0) return null;
     var content = aiUndoStack.pop();
-    aiRedoStack.push(appState.getAiCurrentResult());
+    aiRedoStack.push(aiCurrentResult);
     return content;
   },
 
   aiRedo: function () {
     if (aiRedoStack.length === 0) return null;
     var content = aiRedoStack.pop();
-    aiUndoStack.push(appState.getAiCurrentResult());
+    aiUndoStack.push(aiCurrentResult);
     return content;
   },
 
-  getAiUndoStackLength: function () {
-    return aiUndoStack.length;
+  getAiHistory: function () { return aiHistory; },
+  addAiHistory: function (entry) {
+    aiHistory.unshift(entry);
+    if (aiHistory.length > 100) aiHistory.pop();
   },
 
-  getAiRedoStackLength: function () {
-    return aiRedoStack.length;
-  },
-
-  getBookProject: function () {
-    return bookProject;
-  },
-
-  setBookProject: function (val) {
-    bookProject = val;
-  },
-
-  getActiveCharacterId: function () {
-    return activeCharacterId;
-  },
-
-  setActiveCharacterId: function (val) {
-    activeCharacterId = val;
-  },
-
-  getActiveMaterialId: function () {
-    return activeMaterialId;
-  },
-
-  setActiveMaterialId: function (val) {
-    activeMaterialId = val;
-  },
-
-  getVoiceStatus: function () {
-    return voiceStatus;
-  },
-
-  setVoiceStatus: function (status) {
-    voiceStatus = Object.assign({}, voiceStatus, status);
-  },
-
-  getDramaCheckStatus: function () {
-    return dramaCheckStatus;
-  },
-
-  setDramaCheckStatus: function (status) {
-    dramaCheckStatus = Object.assign({}, dramaCheckStatus, status);
-  },
-
-  getForeshadowStatus: function () {
-    return foreshadowStatus;
-  },
-
-  setForeshadowStatus: function (status) {
-    foreshadowStatus = Object.assign({}, foreshadowStatus, status);
-  },
-
-  getEndingGenStatus: function () {
-    return endingGenStatus;
-  },
-
-  setEndingGenStatus: function (status) {
-    endingGenStatus = Object.assign({}, endingGenStatus, status);
-  },
-
-  getManuscript: function (id) {
-    for (var i = 0; i < manuscripts.length; i++) {
-      if (manuscripts[i].id === id) return manuscripts[i];
+  /* ===== 小说 CRUD ===== */
+  getNovel: function (id) {
+    for (var i = 0; i < novels.length; i++) {
+      if (novels[i].id === id) return novels[i];
     }
     return null;
   },
 
-  createManuscript: function () {
-    var ms = {
+  createNovel: function (title) {
+    var novel = {
       id: generateId(),
-      title: '未命名书稿',
-      content: '',
-      excerpt: '',
+      title: title || '未命名小说',
+      chapters: [],
       createdAt: Date.now(),
       updatedAt: Date.now(),
       wordCount: 0,
     };
-    manuscripts.unshift(ms);
-    saveManuscripts(manuscripts);
-    return ms;
+    /* 创建默认第一章 */
+    var firstChapter = {
+      id: generateId(),
+      title: '第一章',
+      content: '',
+      order: 0,
+      wordCount: 0,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+    novel.chapters.push(firstChapter);
+    novels.unshift(novel);
+    saveNovels(novels);
+    return novel;
   },
 
-  deleteManuscript: function (id) {
-    manuscripts = manuscripts.filter(function (m) { return m.id !== id; });
-    saveManuscripts(manuscripts);
-    if (currentManuscriptId === id) {
-      currentManuscriptId = manuscripts.length > 0 ? manuscripts[0].id : null;
+  deleteNovel: function (id) {
+    novels = novels.filter(function (n) { return n.id !== id; });
+    saveNovels(novels);
+    if (currentNovelId === id) {
+      currentNovelId = novels.length > 0 ? novels[0].id : null;
+    }
+    appState.cleanupNovelRelatedData(id);
+  },
+
+  cleanupNovelRelatedData: function (novelId) {
+    var keysToRemove = [];
+    var profilePrefix = novelId + '_';
+    for (var key in characterProfiles) {
+      if (characterProfiles.hasOwnProperty(key) && key.indexOf(profilePrefix) === 0) {
+        keysToRemove.push(key);
+      }
+    }
+    for (var i = 0; i < keysToRemove.length; i++) {
+      delete characterProfiles[keysToRemove[i]];
+    }
+
+    aiHistory = aiHistory.filter(function (entry) {
+      return entry.novelId !== novelId;
+    });
+
+    if (currentNovelId === novelId || currentNovelId === null) {
+      aiUndoStack = [];
+      aiRedoStack = [];
+      syncData.characters = '';
+      syncData.worldBuilding = '';
+      syncData.chapterSummary = '';
+      syncData.lastSyncTime = 0;
+    }
+
+    try {
+      var lsKeys = [
+        'qingchen-version-' + novelId,
+        'qingchen-branches-' + novelId,
+        'qingchen-active-branch-' + novelId,
+        'qingchen-editor-state-' + novelId,
+        'qingchen-recovery-' + novelId,
+      ];
+      for (var j = 0; j < lsKeys.length; j++) {
+        localStorage.removeItem(lsKeys[j]);
+      }
+
+      var lastNovel = localStorage.getItem('qingchen-last-novel');
+      if (lastNovel === novelId) {
+        localStorage.removeItem('qingchen-last-novel');
+      }
+
+      var backupsRaw = localStorage.getItem('qingchen-backups');
+      if (backupsRaw) {
+        var backups = JSON.parse(backupsRaw);
+        var filteredBackups = backups.filter(function (b) { return b.manuscriptId !== novelId; });
+        var removedBackups = backups.filter(function (b) { return b.manuscriptId === novelId; });
+        if (filteredBackups.length !== backups.length) {
+          localStorage.setItem('qingchen-backups', JSON.stringify(filteredBackups));
+          for (var k = 0; k < removedBackups.length; k++) {
+            localStorage.removeItem('qingchen-backup-data-' + removedBackups[k].id);
+          }
+        }
+      }
+    } catch (e) {
+      console.error('[appState] 清理 localStorage 数据失败:', e);
     }
   },
+
+  renameNovel: function (id, newTitle) {
+    var novel = appState.getNovel(id);
+    if (!novel) return;
+    novel.title = newTitle;
+    novel.updatedAt = Date.now();
+    saveNovels(novels);
+  },
+
+  /* ===== 章节 CRUD ===== */
+  getChapter: function (novelId, chapterId) {
+    var novel = appState.getNovel(novelId);
+    if (!novel) return null;
+    for (var i = 0; i < novel.chapters.length; i++) {
+      if (novel.chapters[i].id === chapterId) return novel.chapters[i];
+    }
+    return null;
+  },
+
+  addChapter: function (novelId, title) {
+    var novel = appState.getNovel(novelId);
+    if (!novel) return null;
+    var chapter = {
+      id: generateId(),
+      title: title || ('第' + (novel.chapters.length + 1) + '章'),
+      content: '',
+      order: novel.chapters.length,
+      wordCount: 0,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+    novel.chapters.push(chapter);
+    novel.updatedAt = Date.now();
+    saveNovels(novels);
+    return chapter;
+  },
+
+  deleteChapter: function (novelId, chapterId) {
+    var novel = appState.getNovel(novelId);
+    if (!novel) return;
+    novel.chapters = novel.chapters.filter(function (c) { return c.id !== chapterId; });
+    /* 重排顺序 */
+    for (var i = 0; i < novel.chapters.length; i++) {
+      novel.chapters[i].order = i;
+    }
+    novel.updatedAt = Date.now();
+    /* 更新字数 */
+    appState.recalcNovelWordCount(novelId);
+    saveNovels(novels);
+  },
+
+  renameChapter: function (novelId, chapterId, newTitle) {
+    var chapter = appState.getChapter(novelId, chapterId);
+    if (!chapter) return;
+    chapter.title = newTitle;
+    chapter.updatedAt = Date.now();
+    var novel = appState.getNovel(novelId);
+    if (novel) novel.updatedAt = Date.now();
+    saveNovels(novels);
+  },
+
+  updateChapterContent: function (novelId, chapterId, content) {
+    var chapter = appState.getChapter(novelId, chapterId);
+    if (!chapter) return;
+    chapter.content = content;
+    chapter.wordCount = appState.countWords(content);
+    chapter.updatedAt = Date.now();
+    var novel = appState.getNovel(novelId);
+    if (novel) {
+      novel.updatedAt = Date.now();
+      appState.recalcNovelWordCount(novelId);
+    }
+    saveNovels(novels);
+  },
+
+  reorderChapters: function (novelId, orderedChapterIds) {
+    var novel = appState.getNovel(novelId);
+    if (!novel) return;
+    var chapterMap = {};
+    for (var i = 0; i < novel.chapters.length; i++) {
+      chapterMap[novel.chapters[i].id] = novel.chapters[i];
+    }
+    novel.chapters = orderedChapterIds.map(function (id, idx) {
+      var ch = chapterMap[id];
+      if (ch) ch.order = idx;
+      return ch;
+    }).filter(Boolean);
+    novel.updatedAt = Date.now();
+    saveNovels(novels);
+  },
+
+  recalcNovelWordCount: function (novelId) {
+    var novel = appState.getNovel(novelId);
+    if (!novel) return;
+    var total = 0;
+    for (var i = 0; i < novel.chapters.length; i++) {
+      total += novel.chapters[i].wordCount || 0;
+    }
+    novel.wordCount = total;
+  },
+
+  countWords: function (text) {
+    if (!text) return 0;
+    var cleaned = text.replace(/\s+/g, '');
+    var chinese = cleaned.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g);
+    var english = cleaned.match(/[a-zA-Z]+/g);
+    return (chinese ? chinese.length : 0) + (english ? english.length : 0);
+  },
+
+  /* ===== AI 同步数据 ===== */
+  getSyncData: function () { return syncData; },
+  getSyncCharacters: function () { return syncData.characters; },
+  setSyncCharacters: function (val) { syncData.characters = val; },
+  getSyncWorldBuilding: function () { return syncData.worldBuilding; },
+  setSyncWorldBuilding: function (val) { syncData.worldBuilding = val; },
+  getSyncChapterSummary: function () { return syncData.chapterSummary; },
+  setSyncChapterSummary: function (val) { syncData.chapterSummary = val; },
+  getSyncLastTime: function () { return syncData.lastSyncTime; },
+  setSyncLastTime: function (val) { syncData.lastSyncTime = val; },
+  isSyncEnabled: function () { return syncData.syncEnabled; },
+  setSyncEnabled: function (val) { syncData.syncEnabled = val; },
+  mergeSyncCharacters: function (text) {
+    if (!text) return;
+    if (syncData.characters) {
+      syncData.characters = syncData.characters + '\n\n---\n' + text;
+    } else {
+      syncData.characters = text;
+    }
+    syncData.characters = deduplicateText(syncData.characters);
+  },
+  mergeSyncWorldBuilding: function (text) {
+    if (!text) return;
+    if (syncData.worldBuilding) {
+      syncData.worldBuilding = syncData.worldBuilding + '\n\n---\n' + text;
+    } else {
+      syncData.worldBuilding = text;
+    }
+    syncData.worldBuilding = deduplicateText(syncData.worldBuilding);
+  },
+  setSyncChapterSummary: function (text) {
+    syncData.chapterSummary = text || '';
+  },
+
+  /* ===== 结构化角色设定存储 ===== */
+  getCharCategories: function () { return CHAR_CATEGORIES; },
+
+  _profileKey: function (novelId, chapterId) {
+    return novelId + '_' + chapterId;
+  },
+
+  getCharacterProfiles: function (novelId, chapterId) {
+    var key = this._profileKey(novelId, chapterId);
+    return characterProfiles[key] || {};
+  },
+
+  getCharacterProfile: function (novelId, chapterId, charName) {
+    var profiles = this.getCharacterProfiles(novelId, chapterId);
+    return profiles[charName] || null;
+  },
+
+  ensureCharacterProfile: function (novelId, chapterId, charName) {
+    var key = this._profileKey(novelId, chapterId);
+    if (!characterProfiles[key]) characterProfiles[key] = {};
+    if (!characterProfiles[key][charName]) {
+      var empty = {};
+      for (var i = 0; i < CHAR_CATEGORIES.length; i++) {
+        empty[CHAR_CATEGORIES[i]] = '';
+      }
+      characterProfiles[key][charName] = empty;
+    }
+    return characterProfiles[key][charName];
+  },
+
+  updateCharacterProfile: function (novelId, chapterId, charName, category, content) {
+    var key = this._profileKey(novelId, chapterId);
+    if (!characterProfiles[key]) characterProfiles[key] = {};
+    if (!characterProfiles[key][charName]) {
+      this.ensureCharacterProfile(novelId, chapterId, charName);
+    }
+    characterProfiles[key][charName][category] = content || '';
+  },
+
+  setCharacterProfiles: function (novelId, chapterId, profiles) {
+    var key = this._profileKey(novelId, chapterId);
+    characterProfiles[key] = profiles;
+  },
+
+  deleteCharacterProfile: function (novelId, chapterId, charName) {
+    var key = this._profileKey(novelId, chapterId);
+    if (characterProfiles[key]) {
+      delete characterProfiles[key][charName];
+      var keys = Object.keys(characterProfiles[key]);
+      if (keys.length === 0) delete characterProfiles[key];
+    }
+  },
+
+  getAllCharacterNames: function (novelId, chapterId) {
+    var profiles = this.getCharacterProfiles(novelId, chapterId);
+    return Object.keys(profiles);
+  },
+
+  /* ===== 兼容旧 manuscrit API ===== */
+  getManuscripts: function () { return novels; },
+  setManuscripts: function (list) { novels = list; },
+  getCurrentManuscriptId: function () { return currentNovelId; },
+  setCurrentManuscriptId: function (id) { currentNovelId = id; },
+  getManuscript: function (id) { return appState.getNovel(id); },
+
+  createManuscript: function () {
+    var novel = appState.createNovel();
+    return {
+      id: novel.id,
+      title: novel.title,
+      content: novel.chapters[0] ? novel.chapters[0].content : '',
+      excerpt: '',
+      createdAt: novel.createdAt,
+      updatedAt: novel.updatedAt,
+      wordCount: novel.wordCount,
+    };
+  },
+
+  deleteManuscript: function (id) { appState.deleteNovel(id); },
 
   updateManuscript: function (id, fields) {
-    var ms = appState.getManuscript(id);
-    if (!ms) return;
-    var keys = Object.keys(fields);
-    for (var i = 0; i < keys.length; i++) {
-      ms[keys[i]] = fields[keys[i]];
+    var novel = appState.getNovel(id);
+    if (!novel) return;
+    if (fields.title !== undefined) novel.title = fields.title;
+    if (fields.content !== undefined) {
+      if (novel.chapters.length === 0) {
+        appState.addChapter(id, '第一章');
+      }
+      var ch = novel.chapters[0];
+      if (ch) {
+        ch.content = fields.content;
+        ch.wordCount = fields.wordCount || 0;
+        ch.updatedAt = Date.now();
+      }
     }
-    ms.updatedAt = Date.now();
-    saveManuscripts(manuscripts);
+    if (fields.wordCount !== undefined) novel.wordCount = fields.wordCount;
+    novel.updatedAt = Date.now();
+    saveNovels(novels);
   },
 };
+
+function deduplicateText(text) {
+  if (!text) return text;
+  var lines = text.split('\n');
+  var seen = {};
+  var result = [];
+  for (var i = 0; i < lines.length; i++) {
+    var trimmed = lines[i].trim();
+    if (!trimmed) {
+      result.push('');
+      continue;
+    }
+    if (!seen[trimmed]) {
+      seen[trimmed] = true;
+      result.push(lines[i]);
+    }
+  }
+  /* 清理尾部空行 */
+  while (result.length > 0 && !result[result.length - 1]) {
+    result.pop();
+  }
+  return result.join('\n');
+}
 
 export default appState;

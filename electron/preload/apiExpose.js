@@ -22,6 +22,8 @@ function exposeAPI(contextBridge, ipcRenderer) {
     getPlatform: function () { return ipcRenderer.invoke(IPC_EVENTS.GET_PLATFORM); },
     showSaveDialog: function (options) { return ipcRenderer.invoke(IPC_EVENTS.SHOW_SAVE_DIALOG, options); },
     showOpenDialog: function (options) { return ipcRenderer.invoke(IPC_EVENTS.SHOW_OPEN_DIALOG, options); },
+    readFileContent: function () { return ipcRenderer.invoke(IPC_EVENTS.READ_FILE); },
+    cleanupNovel: function (novelId) { return ipcRenderer.invoke(IPC_EVENTS.CLEANUP_NOVEL, novelId); },
 
     testAiConnection: function (config) { return ipcRenderer.invoke(IPC_EVENTS.AI_TEST_CONNECTION, config); },
 

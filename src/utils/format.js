@@ -22,3 +22,10 @@ export function formatDate(ts) {
   var pad = function (n) { return String(n).padStart(2, '0'); };
   return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
 }
+
+export function formatWordCount(count) {
+  if (!count || count === 0) return '0 字';
+  if (count < 1000) return count + ' 字';
+  if (count < 10000) return (count / 1000).toFixed(1) + 'k 字';
+  return (count / 10000).toFixed(1) + 'w 字';
+}
